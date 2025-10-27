@@ -1,11 +1,6 @@
-"""
-pso_algorithm.py
-----------------
-Implements the core logic of the Particle Swarm Optimization (PSO) algorithm.
-"""
-
 import random
 import math
+from visualization.plot_results import plot_convergence  # <-- add this import at the top
 
 class Particle:
     def __init__(self, dimensions, bounds):
@@ -14,16 +9,14 @@ class Particle:
         self.best_position = list(self.position)
         self.best_value = float("inf")
 
-    def __repr__(self):
-        return f"Particle(pos={self.position}, best_val={self.best_value})"
-
-
 def pso_optimize(objective_function, bounds, num_particles=30, dimensions=2, max_iter=100,
                  inertia_weight=0.5, cognitive_const=1.5, social_const=2.0):
-    """Run the Particle Swarm Optimization algorithm."""
     swarm = [Particle(dimensions, bounds) for _ in range(num_particles)]
     global_best_value = float("inf")
     global_best_position = None
+    history = []  # <-- add this line
+
+    print("Particle Swarm Optimization initialized")
 
     for iteration in range(max_iter):
         for particle in swarm:
@@ -44,5 +37,7 @@ def pso_optimize(objective_function, bounds, num_particles=30, dimensions=2, max
                 particle.position[d] += particle.velocity[d]
 
         print(f"Iteration {iteration + 1}/{max_iter}, Best Value = {global_best_value:.5f}")
+        history.append(global_best_value)  # <-- record progress
 
+    plot_convergence(history)  # <-- visualize after completion
     return global_best_position, global_best_value
