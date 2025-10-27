@@ -1,0 +1,12 @@
+# Configuration for PSO experiments
+
+pso:
+  num_particles: 30
+  dimensions: 2
+  max_iter: 50
+  bounds: [-5, 5]
+  inertia_weight: 0.5
+  cognitive_const: 1.5
+  social_const: 2.0
+
+function: "sphere"
